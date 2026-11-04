@@ -1,6 +1,6 @@
 const input = document.querySelector("#task-input");
 const button = document.querySelector("button")
-const tasks = [];
+let tasks = [];
 
 function addTask() {
     const taskName = input.value.trim();
@@ -20,7 +20,7 @@ function addTask() {
     checkbox.type = "checkbox";
     checkbox.addEventListener("change", () => {
         task.completed = checkbox.checked;
-        if (task.completed){
+        if (task.completed) {
             console.log("tak 1: doorstrepen")
             list.style.textDecoration = "line-through";
         } else {
@@ -31,9 +31,20 @@ function addTask() {
     });
     list.textContent = task.title;
     list.appendChild(checkbox);
+    const deleteButton = document.createElement("button")
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+        list.remove();
+        const rest = tasks.filter(t => t !== task);
+        tasks = rest;
+        console.log(tasks);
+        console.log(rest);
+    });
+    list.appendChild(deleteButton);
     taskList.appendChild(list);
     console.log(taskList);
     input.value = "";
     input.focus();
 };
+
 button.addEventListener("click", addTask);
