@@ -1,7 +1,13 @@
 const input = document.querySelector("#task-input");
 const button = document.querySelector("button")
+let string = localStorage.getItem("tasks");
+console.log(string);
 let tasks = [];
-
+if (string !== null) {
+    tasks = JSON.parse(string);
+} else {
+    tasks = [];
+}
 function addTask() {
     const taskName = input.value.trim();
     if (taskName === "") {
@@ -13,7 +19,7 @@ function addTask() {
         completed: false
     };
     tasks.push(task);
-    console.log(tasks);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
     const taskList = document.querySelector("#task-list")
     const list = document.createElement("li");
     const checkbox = document.createElement("input");
@@ -21,12 +27,11 @@ function addTask() {
     checkbox.addEventListener("change", () => {
         task.completed = checkbox.checked;
         if (task.completed) {
-            console.log("tak 1: doorstrepen")
             list.style.textDecoration = "line-through";
         } else {
-            console.log("tak 2: streep weg");
             list.style.textDecoration = "";
         }
+        localStorage.setItem("tasks", JSON.stringify(tasks));
         console.log(task)
     });
     list.textContent = task.title;
@@ -37,8 +42,8 @@ function addTask() {
         list.remove();
         const rest = tasks.filter(t => t !== task);
         tasks = rest;
-        console.log(tasks);
         console.log(rest);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
     });
     list.appendChild(deleteButton);
     taskList.appendChild(list);
