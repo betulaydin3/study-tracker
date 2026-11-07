@@ -2,6 +2,7 @@ const input = document.querySelector("#task-input");
 const button = document.querySelector("button")
 let string = localStorage.getItem("tasks");
 const taskList = document.querySelector("#task-list");
+let display = "all"
 
 console.log(string);
 let tasks = [];
@@ -13,26 +14,42 @@ if (string !== null) {
 const completedBtn = document.querySelector("#completed-btn");
 
 completedBtn.addEventListener("click", () => {
+    display = "completed"
     taskList.textContent = ""
     const completedTasks = tasks.filter(t => t.completed === true);
     completedTasks.forEach((task) => { showTask(task); });
-    console.log(completedTasks);
+    renderTasks()
 });
 
 const activeBtn = document.querySelector("#active-btn");
 
 activeBtn.addEventListener("click", () => {
+    display = "active"
     taskList.textContent = ""
     const activeTasks = tasks.filter(t => t.completed === false);
     activeTasks.forEach((task) => { showTask(task); });
-    console.log(activeTasks);
+    renderTasks()
 });
+
+
 const allTasksBtn = document.querySelector("#all-tasks-btn");
 
 allTasksBtn.addEventListener("click", () => {
-    taskList.textContent = ""
     tasks.forEach((task) => { showTask(task); });
+    display = "all"
+    renderTasks();
 });
+
+function renderTasks() {
+    taskList.textContent = ""
+    let toShow = tasks;
+    if (display === "active") {
+        toShow = tasks.filter(t => t.completed === false);;
+    } else if (display === "completed") {
+        toShow = tasks.filter(t => t.completed === true);
+    }
+    toShow.forEach((task) => { showTask(task); });
+}
 
 function addTask() {
     const taskName = input.value.trim();
@@ -46,7 +63,9 @@ function addTask() {
     };
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    showTask(task);
+    if (display === "active" || display === "all") {
+        showTask(task);
+    }
     input.value = "";
     input.focus();
 };
@@ -66,6 +85,7 @@ function showTask(task) {
             list.style.textDecoration = "";
         }
         localStorage.setItem("tasks", JSON.stringify(tasks));
+        renderTasks()
         console.log(task)
     });
     if (task.completed) {
