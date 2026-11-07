@@ -1,6 +1,8 @@
 const input = document.querySelector("#task-input");
 const button = document.querySelector("button")
 let string = localStorage.getItem("tasks");
+const taskList = document.querySelector("#task-list");
+
 console.log(string);
 let tasks = [];
 if (string !== null) {
@@ -11,15 +13,25 @@ if (string !== null) {
 const completedBtn = document.querySelector("#completed-btn");
 
 completedBtn.addEventListener("click", () => {
+    taskList.textContent = ""
     const completedTasks = tasks.filter(t => t.completed === true);
+    completedTasks.forEach((task) => { showTask(task); });
     console.log(completedTasks);
 });
 
 const activeBtn = document.querySelector("#active-btn");
 
 activeBtn.addEventListener("click", () => {
+    taskList.textContent = ""
     const activeTasks = tasks.filter(t => t.completed === false);
+    activeTasks.forEach((task) => { showTask(task); });
     console.log(activeTasks);
+});
+const allTasksBtn = document.querySelector("#all-tasks-btn");
+
+allTasksBtn.addEventListener("click", () => {
+    taskList.textContent = ""
+    tasks.forEach((task) => { showTask(task); });
 });
 
 function addTask() {
@@ -40,7 +52,6 @@ function addTask() {
 };
 
 function showTask(task) {
-    const taskList = document.querySelector("#task-list");
     const list = document.createElement("li");
     list.textContent = task.title;
     taskList.appendChild(list);
