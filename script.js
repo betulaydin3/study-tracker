@@ -3,6 +3,9 @@ const button = document.querySelector("button")
 let string = localStorage.getItem("tasks");
 const taskList = document.querySelector("#task-list");
 let display = "all"
+let seconds = 0;
+let timerId = null;
+const pauseBtn = document.querySelector("#pause-btn");
 
 console.log(string);
 let tasks = [];
@@ -109,6 +112,23 @@ function showTask(task) {
 
 tasks.forEach((task) => {
     showTask(task);
+});
+
+const startBtn = document.querySelector("#start-btn");
+
+startBtn.addEventListener("click", () => {
+    if (timerId !== null) {
+        return;
+    }
+    timerId = setInterval(() => {
+        seconds = seconds + 1;
+        console.log(seconds);
+    }, 1000);
+});
+
+pauseBtn.addEventListener("click", () => {
+    clearInterval(timerId);
+    timerId = null;
 });
 
 
