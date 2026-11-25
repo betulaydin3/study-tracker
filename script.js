@@ -6,6 +6,8 @@ let display = "all"
 let seconds = 0;
 let timerId = null;
 const pauseBtn = document.querySelector("#pause-btn");
+const timerDisplay = document.querySelector("#timer-display");
+const resetBtn = document.querySelector("#reset-btn");
 
 console.log(string);
 let tasks = [];
@@ -123,6 +125,7 @@ startBtn.addEventListener("click", () => {
     timerId = setInterval(() => {
         seconds = seconds + 1;
         console.log(seconds);
+        timerDisplay.textContent = seconds;
     }, 1000);
 });
 
@@ -131,6 +134,15 @@ pauseBtn.addEventListener("click", () => {
     timerId = null;
 });
 
+resetBtn.addEventListener("click", () => {
+    seconds = 0;
+    clearInterval(timerId);
+    timerId = null;
+    timerDisplay.textContent = seconds;
+});
 
+// TODO #12 (timer), volgende stappen:
+// 1. Formatteren als MM:SS (05 in plaats van 5)
+// 2. Alles testen: dubbel op Start, Pause tijdens tellen, Reset tijdens tellen
 
 button.addEventListener("click", addTask);
