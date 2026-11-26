@@ -8,6 +8,7 @@ let timerId = null;
 const pauseBtn = document.querySelector("#pause-btn");
 const timerDisplay = document.querySelector("#timer-display");
 const resetBtn = document.querySelector("#reset-btn");
+const finishBtn = document.querySelector("#finish-btn");
 
 console.log(string);
 let tasks = [];
@@ -139,15 +140,18 @@ pauseBtn.addEventListener("click", () => {
     timerId = null;
 });
 
+finishBtn.addEventListener("click", () => {
+    if (seconds === 0) {
+        return
+    }
+    console.log(seconds);
+});
+
 resetBtn.addEventListener("click", () => {
     seconds = 0;
     clearInterval(timerId);
     timerId = null;
     timerDisplay.textContent = formatTime(seconds);
 });
-
-// TODO #12 (timer), volgende stappen:
-// TODO: formatTime moet een tekst teruggeven, dan in timerDisplay zetten
-// 2. Alles testen: dubbel op Start, Pause tijdens tellen, Reset tijdens tellen
 
 button.addEventListener("click", addTask);
