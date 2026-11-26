@@ -116,6 +116,12 @@ tasks.forEach((task) => {
     showTask(task);
 });
 
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+}
+
 const startBtn = document.querySelector("#start-btn");
 
 startBtn.addEventListener("click", () => {
@@ -124,8 +130,7 @@ startBtn.addEventListener("click", () => {
     }
     timerId = setInterval(() => {
         seconds = seconds + 1;
-        console.log(seconds);
-        timerDisplay.textContent = seconds;
+        timerDisplay.textContent = formatTime(seconds);
     }, 1000);
 });
 
@@ -138,11 +143,11 @@ resetBtn.addEventListener("click", () => {
     seconds = 0;
     clearInterval(timerId);
     timerId = null;
-    timerDisplay.textContent = seconds;
+    timerDisplay.textContent = formatTime(seconds);
 });
 
 // TODO #12 (timer), volgende stappen:
-// 1. Formatteren als MM:SS (05 in plaats van 5)
+// TODO: formatTime moet een tekst teruggeven, dan in timerDisplay zetten
 // 2. Alles testen: dubbel op Start, Pause tijdens tellen, Reset tijdens tellen
 
 button.addEventListener("click", addTask);
