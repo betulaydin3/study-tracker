@@ -10,10 +10,19 @@ const pauseBtn = document.querySelector("#pause-btn");
 const timerDisplay = document.querySelector("#timer-display");
 const resetBtn = document.querySelector("#reset-btn");
 const finishBtn = document.querySelector("#finish-btn");
-const sessionHistory = document.querySelector("#session-history")
+const sessionHistory = document.querySelector("#session-history");
+const h3 = document.querySelector("#h3");
+const paragraph = document.querySelector("#p");
+h3.hidden = true;
+paragraph.hidden = true;
+
 let sessions = [];
 if (sessionString !== null) {
     sessions = JSON.parse(sessionString);
+}
+if (sessions.length === 0) {
+    h3.hidden = false;
+    paragraph.hidden = false;
 }
 
 let tasks = [];
@@ -175,6 +184,8 @@ function showSession(session) {
     const list = document.createElement("li");
     list.textContent = session.date + " - " + formatTime(session.duration);
     sessionHistory.prepend(list);
+    h3.hidden = true
+    paragraph.hidden = true
 }
 sessions.forEach((session) => {
     showSession(session);
