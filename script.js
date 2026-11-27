@@ -10,6 +10,7 @@ const pauseBtn = document.querySelector("#pause-btn");
 const timerDisplay = document.querySelector("#timer-display");
 const resetBtn = document.querySelector("#reset-btn");
 const finishBtn = document.querySelector("#finish-btn");
+const sessionHistory = document.querySelector("#session-history")
 let sessions = [];
 if (sessionString !== null) {
     sessions = JSON.parse(sessionString);
@@ -116,7 +117,6 @@ function showTask(task) {
     list.appendChild(deleteButton);
     console.log(taskList);
 }
-
 tasks.forEach((task) => {
     showTask(task);
 });
@@ -145,15 +145,15 @@ pauseBtn.addEventListener("click", () => {
 });
 
 function reset() {
-        seconds = 0;
-        clearInterval(timerId);
-        timerId = null;
-        timerDisplay.textContent = formatTime(seconds);
-    };
+    seconds = 0;
+    clearInterval(timerId);
+    timerId = null;
+    timerDisplay.textContent = formatTime(seconds);
+};
 
-    resetBtn.addEventListener("click", () => {
-        reset();
-    });
+resetBtn.addEventListener("click", () => {
+    reset();
+});
 
 finishBtn.addEventListener("click", () => {
     if (seconds === 0) {
@@ -166,8 +166,18 @@ finishBtn.addEventListener("click", () => {
     console.log(seconds);
     sessions.push(session);
     localStorage.setItem("sessions", JSON.stringify(sessions));
+    showSession(session);
     console.log(sessions);
     reset();
 });
+
+function showSession(session) {
+    const list = document.createElement("li");
+    list.textContent = session.date + " - " + formatTime(session.duration);
+    sessionHistory.appendChild(list);
+}
+sessions.forEach((session) => {
+    showSession(session);
+})
 
 button.addEventListener("click", addTask);
