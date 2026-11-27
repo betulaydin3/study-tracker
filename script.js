@@ -1,16 +1,20 @@
 const input = document.querySelector("#task-input");
 const button = document.querySelector("button")
 let string = localStorage.getItem("tasks");
+let sessionString = localStorage.getItem("sessions");
 const taskList = document.querySelector("#task-list");
-let display = "all"
+let display = "all";
 let seconds = 0;
 let timerId = null;
 const pauseBtn = document.querySelector("#pause-btn");
 const timerDisplay = document.querySelector("#timer-display");
 const resetBtn = document.querySelector("#reset-btn");
 const finishBtn = document.querySelector("#finish-btn");
+let sessions = [];
+if (sessionString !== null) {
+    sessions = JSON.parse(sessionString);
+}
 
-console.log(string);
 let tasks = [];
 if (string !== null) {
     tasks = JSON.parse(string);
@@ -140,18 +144,30 @@ pauseBtn.addEventListener("click", () => {
     timerId = null;
 });
 
+function reset() {
+        seconds = 0;
+        clearInterval(timerId);
+        timerId = null;
+        timerDisplay.textContent = formatTime(seconds);
+    };
+
+    resetBtn.addEventListener("click", () => {
+        reset();
+    });
+
 finishBtn.addEventListener("click", () => {
     if (seconds === 0) {
         return
     }
+    const session = {
+        duration: seconds,
+        date: new Date().toLocaleString()
+    };
     console.log(seconds);
-});
-
-resetBtn.addEventListener("click", () => {
-    seconds = 0;
-    clearInterval(timerId);
-    timerId = null;
-    timerDisplay.textContent = formatTime(seconds);
+    sessions.push(session);
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+    console.log(sessions);
+    reset();
 });
 
 button.addEventListener("click", addTask);
