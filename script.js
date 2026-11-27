@@ -174,7 +174,7 @@ finishBtn.addEventListener("click", () => {
 function showSession(session) {
     const list = document.createElement("li");
     list.textContent = session.date + " - " + formatTime(session.duration);
-    sessionHistory.appendChild(list);
+    sessionHistory.prepend(list);
 }
 sessions.forEach((session) => {
     showSession(session);
